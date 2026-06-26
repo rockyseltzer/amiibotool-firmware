@@ -1,17 +1,16 @@
 # Pixl.js
 
-这是一个基于原版[Pixl.js](http://www.espruino.com/Pixl.js)的复刻版本，主要的功能是用来模拟Amiibo。
+This is a fork version based on the original [Pixl.js](http://www.espruino.com/Pixl.js), mainly designed to simulate Amiibo.
 
-## 图片
+## Images
 
 ![image](https://github.com/solosky/pixl.js/blob/main/assets/pixljs-3.jpg)
 ![image](https://github.com/solosky/pixl.js/blob/main/assets/pixljs-4.jpg)
-
 ![image](https://github.com/solosky/pixl.js/blob/main/assets/pixljs-5.jpg)
 
-## 文档
+## Documentation
 
-* [中文文档](docs/zh/README.md)
+* [Chinese Documentation](docs/zh/README.md)
 * [English Documentation](docs/en/README.md)
 * [Italian Documentation](docs/it/README.md)
 
@@ -25,41 +24,39 @@
 * [ChameleonUltra](https://github.com/RfidResearchGroup/ChameleonUltra)
 * [CH32V003-GameConsole](https://github.com/wagiminator/CH32V003-GameConsole)
 
-## Contribution 
+## Contributions
 
-* 特别感谢 @Caleeeeeeeeeeeee 完善的Bootloader。
-* 特别感谢 @白橙 制作的外壳。 
-* 特别感谢 @impeeza 提供的文档翻译 。
+* Special thanks to @Caleeeeeeeeeeeee for the perfected Bootloader.
+* Special thanks to @白橙 for creating the enclosure case.
+* Special thanks to @impeeza for providing documentation translations.
 
-## 讨论群
+## Discussion Groups
 
-国内用户可以加入QQ群 109761876 进行交流。
+Users in China can join QQ Group 109761876 to communicate.
 
 ## Office Channel
 
 Where do you find the community?
-* [Pixl.js community discord server](https://discord.gg/4mqeQwcAB2)
+* [Pixl.js Community Discord Server](https://discord.gg/4mqeQwcAB2)
 
-## 声明
+## Statement
 
-本项目为开源项目，仅为学习研究用途，请勿用于商业用途。 <br />
-Amiibo是任天堂的注册商标，NTAG21X为NXP的注册商标。
+This project is an open-source project intended for learning and research purposes only. Please do not use it for commercial purposes.
+Amiibo is a registered trademark of Nintendo. NTAG21X is a registered trademark of NXP.
 
-内置的Amiibo数据库来源分别如下：
-
+The built-in Amiibo database sources are as follows:
 * [amiiloop](https://download.amiloop.app/)
 * [AmiiboAPI](https://www.amiiboapi.com/)
 
-源代码没有包含任何有任天堂版权的资源（比如相关密钥，Amiibo原始数据等）。
+The source code does not include any Nintendo copyrighted resources (such as related keys, original Amiibo data, etc.).
 
-# License
+## License
 
-本项目基于GPL 2.0 License发布，使用请遵循License的约定。
+This project is released under the GPL 2.0 License, please comply with the terms of the License when using it.
 
-* 如果对项目做了修改，需要把改后的源码发布出来
-* 发布出来的源码必须要使用相同的License发布
+* If modifications were made to the project, you must publish the modified source code.
+* The published source code must be distributed under the same License.
 
+## Tip
 
-## 提示 
-
-Amiibo无限刷需要网上搜索key_retail.bin文件然后上传到到磁盘根目录后才能使用。
+For unlimited Amiibo flashing capability, search online for the key_retail.bin file and upload it to the root directory of the disk/storage first.
