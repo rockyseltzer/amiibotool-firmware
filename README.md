@@ -1,6 +1,6 @@
 # Pixl.js
 
-This is a forked version of the Pixl.js firmware by solosky. This firmware flips the screen 180 degrees and adds back button functionality.
+This is a forked version of the Pixl.js firmware by solosky. This firmware flips the screen 180 degrees and adds back-button functionality.
 
 ## Images
 
