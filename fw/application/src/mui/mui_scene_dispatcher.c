@@ -1,5 +1,16 @@
 #include "mui_scene_dispatcher.h"
 
+static mui_scene_dispatcher_t *s_active_scene_dispatcher = NULL;
+
+int mui_scene_dispatcher_handle_back(void) {
+    mui_scene_dispatcher_t *p = s_active_scene_dispatcher;
+    if (p != NULL && scene_id_stack_size(p->scene_id_stack) > 1) {
+        mui_scene_dispatcher_previous_scene(p);
+        return 1;
+    }
+    return 0;
+}
+
 mui_scene_dispatcher_t *mui_scene_dispatcher_create() {
     mui_scene_dispatcher_t *p_dispatcher = mui_mem_malloc(sizeof(mui_scene_dispatcher_t));
     scene_id_stack_init(p_dispatcher->scene_id_stack);
@@ -11,6 +22,7 @@ mui_scene_dispatcher_t *mui_scene_dispatcher_create() {
 }
 
 void mui_scene_dispatcher_free(mui_scene_dispatcher_t *p_dispatcher) {
+    if (s_active_scene_dispatcher == p_dispatcher) { s_active_scene_dispatcher = NULL; }
     // call last sence exit to free resources
     //  if (scene_id_stack_size(p_dispatcher->scene_id_stack) > 0) {
     //      uint32_t cur_scene_id = *scene_id_stack_back(p_dispatcher->scene_id_stack);
@@ -39,6 +51,7 @@ void mui_scene_dispatcher_set_user_data(mui_scene_dispatcher_t *p_dispatcher, vo
 }
 
 void mui_scene_dispatcher_next_scene(mui_scene_dispatcher_t *p_dispatcher, uint32_t scene_id) {
+    s_active_scene_dispatcher = p_dispatcher;
     if (scene_id_stack_size(p_dispatcher->scene_id_stack) > 0) {
         uint32_t cur_scene_id = *scene_id_stack_back(p_dispatcher->scene_id_stack);
         p_dispatcher->p_scene_defines[cur_scene_id].exit_cb(p_dispatcher->user_data);
