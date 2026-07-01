@@ -1,14 +1,19 @@
 #include "mui_scene_dispatcher.h"
+#include "mini_app_launcher.h"
 
 static mui_scene_dispatcher_t *s_active_scene_dispatcher = NULL;
 
 int mui_scene_dispatcher_handle_back(void) {
     mui_scene_dispatcher_t *p = s_active_scene_dispatcher;
-    if (p != NULL && scene_id_stack_size(p->scene_id_stack) > 1) {
-        mui_scene_dispatcher_previous_scene(p);
-        return 1;
+    if (p == NULL) {
+        return 0;
     }
-    return 0;
+    if (scene_id_stack_size(p->scene_id_stack) > 1) {
+        mui_scene_dispatcher_previous_scene(p);
+    } else {
+        mini_app_launcher_exit(mini_app_launcher());
+    }
+    return 1;
 }
 
 mui_scene_dispatcher_t *mui_scene_dispatcher_create() {
