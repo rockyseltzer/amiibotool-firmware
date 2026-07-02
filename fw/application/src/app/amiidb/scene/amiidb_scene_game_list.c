@@ -120,8 +120,19 @@ static void amiidb_scene_game_list_reload(app_amiidb_t *app) {
     mui_view_dispatcher_switch_to_view(app->p_view_dispatcher, AMIIDB_VIEW_ID_LIST);
 }
 
+static int amiidb_scene_game_list_on_back(void *ctx) {
+    app_amiidb_t *app = ctx;
+    if (app->game_id_index <= 0) {
+        return 0;
+    }
+    app->game_id_index--;
+    amiidb_scene_game_list_reload(app);
+    return 1;
+}
+
 void amiidb_scene_game_list_on_enter(void *user_data) {
     app_amiidb_t *app = (app_amiidb_t *)user_data;
+    mui_scene_dispatcher_set_back_handler(amiidb_scene_game_list_on_back, app);
     amiidb_scene_game_list_reload(app);
 
     // restore states
@@ -131,5 +142,6 @@ void amiidb_scene_game_list_on_enter(void *user_data) {
 
 void amiidb_scene_game_list_on_exit(void *user_data) {
     app_amiidb_t *app = (app_amiidb_t *)user_data;
+    mui_scene_dispatcher_set_back_handler(NULL, NULL);
     mui_list_view_clear_items(app->p_list_view);
 }

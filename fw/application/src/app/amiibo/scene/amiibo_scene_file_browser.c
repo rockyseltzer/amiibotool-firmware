@@ -109,10 +109,27 @@ static void amiibo_scene_file_browser_on_selected(mui_list_view_event_t event, m
     }
 }
 
+static int amiibo_scene_file_browser_on_back(void *ctx) {
+    app_amiibo_t *app = ctx;
+    if (string_cmp_str(app->current_folder, "/") == 0) {
+        return 0;
+    }
+    struct cwk_segment segment;
+    const char *folder_cstr = string_get_cstr(app->current_folder);
+    cwk_path_get_last_segment(folder_cstr, &segment);
+    string_left(app->current_folder, segment.begin - folder_cstr);
+    if (string_size(app->current_folder) == 0) {
+        string_cat_str(app->current_folder, "/");
+    }
+    amiibo_scene_file_browser_reload_folders(app);
+    return 1;
+}
+
 void amiibo_scene_file_browser_on_enter(void *user_data) {
     app_amiibo_t *app = user_data;
     NRF_LOG_INFO("%X", app);
     mui_list_view_set_selected_cb(app->p_list_view, amiibo_scene_file_browser_on_selected);
+    mui_scene_dispatcher_set_back_handler(amiibo_scene_file_browser_on_back, app);
     mui_list_view_set_user_data(app->p_list_view, app);
 
     amiibo_scene_file_browser_reload_folders(app);
@@ -124,6 +141,7 @@ void amiibo_scene_file_browser_on_enter(void *user_data) {
 
 void amiibo_scene_file_browser_on_exit(void *user_data) {
     app_amiibo_t *app = user_data;
+    mui_scene_dispatcher_set_back_handler(NULL, NULL);
     mui_list_view_set_selected_cb(app->p_list_view, NULL);
     mui_list_view_set_user_data(app->p_list_view, NULL);
     mui_list_view_clear_items(app->p_list_view);

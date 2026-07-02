@@ -3,7 +3,18 @@
 
 static mui_scene_dispatcher_t *s_active_scene_dispatcher = NULL;
 
+static int (*s_scene_back_handler)(void *ctx) = NULL;
+static void *s_scene_back_handler_ctx = NULL;
+
+void mui_scene_dispatcher_set_back_handler(int (*handler)(void *ctx), void *ctx) {
+    s_scene_back_handler = handler;
+    s_scene_back_handler_ctx = ctx;
+}
+
 int mui_scene_dispatcher_handle_back(void) {
+    if (s_scene_back_handler != NULL && s_scene_back_handler(s_scene_back_handler_ctx)) {
+        return 1;
+    }
     mui_scene_dispatcher_t *p = s_active_scene_dispatcher;
     if (p == NULL) {
         return 0;
@@ -28,6 +39,8 @@ mui_scene_dispatcher_t *mui_scene_dispatcher_create() {
 
 void mui_scene_dispatcher_free(mui_scene_dispatcher_t *p_dispatcher) {
     if (s_active_scene_dispatcher == p_dispatcher) { s_active_scene_dispatcher = NULL; }
+    s_scene_back_handler = NULL;
+    s_scene_back_handler_ctx = NULL;
     // call last sence exit to free resources
     //  if (scene_id_stack_size(p_dispatcher->scene_id_stack) > 0) {
     //      uint32_t cur_scene_id = *scene_id_stack_back(p_dispatcher->scene_id_stack);
