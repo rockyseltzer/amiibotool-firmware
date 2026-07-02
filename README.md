@@ -1,4 +1,4 @@
-# Pixl.js for Amiibotool/Evergenesis/nfctool/iNFC
+# Pixl.js for Amiibotool/Evergenesis/nfctool
 
 This repo is a forked version of the Pixl.js firmware by solosky. The modified firmware flips the OLED screen 180 degrees and adds back-button functionality not present in the official firmware.
 
