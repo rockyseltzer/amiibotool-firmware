@@ -4,6 +4,8 @@
 #include "mui_u8g2.h"
 #include "nrf_log.h"
 #include "settings.h"
+#include "mui_input.h"
+#include "mui_scene_dispatcher.h"
 
 static mui_view_port_t *mui_find_view_port_enabled(mui_t *p_mui, mui_layer_t layer) {
     mui_view_port_array_it_t it;
@@ -99,6 +101,13 @@ static void mui_process_input(mui_t *p_mui, mui_event_t *p_event) {
 
         input_event.key = arg & 0xFF;
         input_event.type = (arg >> 8) & 0xFF;
+
+        if (input_event.key == INPUT_KEY_BACK && input_event.type == INPUT_TYPE_SHORT) {
+            if (mui_scene_dispatcher_handle_back()) {
+                if (p_mui->auto_update) { mui_update(mui()); }
+                return;
+            }
+        }
 
         p_view_port->input_cb(p_view_port, &input_event);
 

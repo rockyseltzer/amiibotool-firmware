@@ -49,4 +49,5 @@ dist
 
 fw/scripts/.venv
 
-fw/temp
+fw/tempoutput.txt
+fw/_build/

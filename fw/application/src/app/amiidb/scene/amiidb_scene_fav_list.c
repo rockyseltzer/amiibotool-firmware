@@ -140,12 +140,19 @@ void amiidb_scene_fav_list_item_clear_cb(mui_list_item_t *p_item) {
     }
 }
 
+static uint16_t s_fav_list_focus = 0;
+static uint16_t s_fav_list_scroll = 0;
+
 void amiidb_scene_fav_list_on_enter(void *user_data) {
     app_amiidb_t *app = (app_amiidb_t *)user_data;
     amiidb_scene_fav_list_reload(app);
+    mui_list_view_set_focus(app->p_list_view, s_fav_list_focus);
+    mui_list_view_set_scroll_offset(app->p_list_view, s_fav_list_scroll);
 }
 
 void amiidb_scene_fav_list_on_exit(void *user_data) {
     app_amiidb_t *app = (app_amiidb_t *)user_data;
+    s_fav_list_focus = mui_list_view_get_focus(app->p_list_view);
+    s_fav_list_scroll = mui_list_view_get_scroll_offset(app->p_list_view);
     mui_list_view_clear_items_with_cb(app->p_list_view, amiidb_scene_fav_list_item_clear_cb);
 }

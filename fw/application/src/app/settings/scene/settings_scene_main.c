@@ -29,6 +29,9 @@ enum settings_main_menu_t {
 };
 
 static void settings_scene_main_reload(void *user_data);
+
+static uint16_t s_settings_main_focus = 0;
+static uint16_t s_settings_main_scroll = 0;
 static void settings_reset_default(void *user_data) {
     app_settings_t *app = user_data;
     settings_data_t *p_settings = settings_get_data();
@@ -229,12 +232,16 @@ void settings_scene_main_on_enter(void *user_data) {
     app_settings_t *app = user_data;
     mui_list_view_clear_items(app->p_list_view);
     settings_scene_main_reload(user_data);
+    mui_list_view_set_focus(app->p_list_view, s_settings_main_focus);
+    mui_list_view_set_scroll_offset(app->p_list_view, s_settings_main_scroll);
     mui_list_view_set_selected_cb(app->p_list_view, settings_scene_main_list_view_on_selected);
     mui_view_dispatcher_switch_to_view(app->p_view_dispatcher, SETTINGS_VIEW_ID_MAIN);
 }
 
 void settings_scene_main_on_exit(void *user_data) {
     app_settings_t *app = user_data;
+    s_settings_main_focus = mui_list_view_get_focus(app->p_list_view);
+    s_settings_main_scroll = mui_list_view_get_scroll_offset(app->p_list_view);
     mui_list_view_clear_items(app->p_list_view);
     mui_list_view_set_selected_cb(app->p_list_view, NULL);
 }

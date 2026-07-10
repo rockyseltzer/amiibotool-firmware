@@ -73,13 +73,20 @@ static void amiidb_scene_data_list_setup(app_amiidb_t *app) {
     mui_view_dispatcher_switch_to_view(app->p_view_dispatcher, AMIIDB_VIEW_ID_LIST);
 }
 
+static uint16_t s_data_list_focus = 0;
+static uint16_t s_data_list_scroll = 0;
+
 void amiidb_scene_data_list_on_enter(void *user_data) {
     app_amiidb_t *app = (app_amiidb_t *)user_data;
     amiidb_scene_data_list_reload(app);
     amiidb_scene_data_list_setup(app);
+    mui_list_view_set_focus(app->p_list_view, s_data_list_focus);
+    mui_list_view_set_scroll_offset(app->p_list_view, s_data_list_scroll);
 }
 
 void amiidb_scene_data_list_on_exit(void *user_data) {
     app_amiidb_t *app = (app_amiidb_t *)user_data;
+    s_data_list_focus = mui_list_view_get_focus(app->p_list_view);
+    s_data_list_scroll = mui_list_view_get_scroll_offset(app->p_list_view);
     mui_list_view_clear_items(app->p_list_view);
 }

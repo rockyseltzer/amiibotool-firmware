@@ -52,6 +52,9 @@ static void amiidb_scene_main_list_view_on_selected(mui_list_view_event_t event,
     }
 }
 
+static uint16_t s_amiidb_main_focus = 0;
+static uint16_t s_amiidb_main_scroll = 0;
+
 void amiidb_scene_main_on_enter(void *user_data) {
     app_amiidb_t *app = (app_amiidb_t *)user_data;
     mui_list_view_add_item(app->p_list_view, ICON_VIEW,  getLangString(_L_APP_AMMIDB_BROWSER), (void *)AMIIDB_MAIN_MENU_VIEW);
@@ -61,11 +64,15 @@ void amiidb_scene_main_on_enter(void *user_data) {
     mui_list_view_add_item(app->p_list_view, ICON_SETTINGS, getLangString(_L_APP_AMIIDB_SETTINGS), (void *)AMIIDB_MAIN_MENU_SETTINGS);
     mui_list_view_add_item(app->p_list_view, ICON_EXIT, getLangString(_L_APP_AMIIDB_EXIT), (void *)AMIIDB_MAIN_MENU_EXIT);
     mui_list_view_set_selected_cb(app->p_list_view, amiidb_scene_main_list_view_on_selected);
+    mui_list_view_set_focus(app->p_list_view, s_amiidb_main_focus);
+    mui_list_view_set_scroll_offset(app->p_list_view, s_amiidb_main_scroll);
 
     mui_view_dispatcher_switch_to_view(app->p_view_dispatcher, AMIIDB_VIEW_ID_LIST);
 }
 
 void amiidb_scene_main_on_exit(void *user_data) {
     app_amiidb_t *app = (app_amiidb_t *)user_data;
+    s_amiidb_main_focus = mui_list_view_get_focus(app->p_list_view);
+    s_amiidb_main_scroll = mui_list_view_get_scroll_offset(app->p_list_view);
     mui_list_view_clear_items(app->p_list_view);
 }

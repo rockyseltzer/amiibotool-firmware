@@ -55,11 +55,20 @@ static void game_scene_game_list_reload_folders(app_game_t *app) {
     mui_list_view_add_item(app->p_list_view, ICON_FILE, _T(APP_GAME_TINY_TRIS), tiny_tris_run);
 }
 
+static uint16_t s_game_scene_focus = 0;
+static uint16_t s_game_scene_scroll = 0;
+
 void game_scene_game_list_on_enter(void *user_data) {
     app_game_t *app = user_data;
     game_scene_game_list_reload_folders(app);
     mui_list_view_set_selected_cb(app->p_list_view, game_scene_game_list_on_selected);
+    mui_list_view_set_focus(app->p_list_view, s_game_scene_focus);
+    mui_list_view_set_scroll_offset(app->p_list_view, s_game_scene_scroll);
     mui_view_dispatcher_switch_to_view(app->p_view_dispatcher, GAME_VIEW_ID_LIST);
 }
 
-void game_scene_game_list_on_exit(void *user_data) { app_game_t *app = user_data; }
+void game_scene_game_list_on_exit(void *user_data) {
+    app_game_t *app = user_data;
+    s_game_scene_focus = mui_list_view_get_focus(app->p_list_view);
+    s_game_scene_scroll = mui_list_view_get_scroll_offset(app->p_list_view);
+}

@@ -80,11 +80,20 @@ static void player_scene_file_browser_reload_folders(app_player_t *app) {
     //mui_list_view_sort(app->p_list_view, player_scene_file_browser_list_item_cmp);
 }
 
+static uint16_t s_player_fb_focus = 0;
+static uint16_t s_player_fb_scroll = 0;
+
 void player_scene_file_browser_on_enter(void *user_data) {
     app_player_t *app = user_data;
     player_scene_file_browser_reload_folders(app);
     mui_list_view_set_selected_cb(app->p_list_view, player_scene_file_browser_on_selected);
+    mui_list_view_set_focus(app->p_list_view, s_player_fb_focus);
+    mui_list_view_set_scroll_offset(app->p_list_view, s_player_fb_scroll);
     mui_view_dispatcher_switch_to_view(app->p_view_dispatcher, PLAYER_VIEW_ID_LIST);
 }
 
-void player_scene_file_browser_on_exit(void *user_data) { app_player_t *app = user_data; }
+void player_scene_file_browser_on_exit(void *user_data) {
+    app_player_t *app = user_data;
+    s_player_fb_focus = mui_list_view_get_focus(app->p_list_view);
+    s_player_fb_scroll = mui_list_view_get_scroll_offset(app->p_list_view);
+}

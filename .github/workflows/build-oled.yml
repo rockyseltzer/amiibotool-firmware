@@ -1,0 +1,44 @@
+name: build-oled
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build OLED firmware (signed OTA)
+        run: |
+          docker run --rm -v "$PWD":/work -w /work solosky/nrf52-sdk:latest \
+            bash -lc 'git config --global --add safe.directory /work && cd fw && make all BOARD=OLED RELEASE=1'
+
+      - name: Fix build output permissions
+        run: sudo chown -R "$(id -u):$(id -g)" fw/_build
+
+      - name: Rename OTA package
+        run: cp fw/_build/pixjs_ota_v1.zip "2.16.0_Amiibotool.zip"
+
+      - name: Upload build artifact (every push)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Amiibotool-2.16.0
+          path: 2.16.0_Amiibotool.zip
+          if-no-files-found: error
+
+      - name: Publish Release (on tag only)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: 2.16.0_Amiibotool.zip

@@ -42,6 +42,9 @@ void amiibolink_scene_menu_on_event(mui_list_view_event_t event, mui_list_view_t
     }
 }
 
+static uint16_t s_amiibolink_menu_focus = 0;
+static uint16_t s_amiibolink_menu_scroll = 0;
+
 void amiibolink_scene_menu_on_enter(void *user_data) {
     app_amiibolink_t *app = user_data;
     // char *mode_name[] = {"", "随机(手动)", "按序", "读写", "随机(自动)"};
@@ -76,10 +79,14 @@ void amiibolink_scene_menu_on_enter(void *user_data) {
     mui_list_view_add_item(app->p_list_view, ICON_HOME, getLangString(_L_MAIN_MENU), (void *)AMIIBOLINK_MENU_BACK_EXIT);
 
     mui_list_view_set_selected_cb(app->p_list_view, amiibolink_scene_menu_on_event);
+    mui_list_view_set_focus(app->p_list_view, s_amiibolink_menu_focus);
+    mui_list_view_set_scroll_offset(app->p_list_view, s_amiibolink_menu_scroll);
     mui_view_dispatcher_switch_to_view(app->p_view_dispatcher, AMIIBOLINK_VIEW_ID_LIST);
 }
 
 void amiibolink_scene_menu_on_exit(void *user_data) {
     app_amiibolink_t *app = user_data;
+    s_amiibolink_menu_focus = mui_list_view_get_focus(app->p_list_view);
+    s_amiibolink_menu_scroll = mui_list_view_get_scroll_offset(app->p_list_view);
     mui_list_view_clear_items(app->p_list_view);
 }
