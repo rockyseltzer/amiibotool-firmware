@@ -1,0 +1,7 @@
+ADD_SCENE(settings, main, MAIN)
+ADD_SCENE(settings, version, VERSION)
+ADD_SCENE(settings, sleep_timeout, SLEEP_TIMEOUT)
+ADD_SCENE(settings, oled_contrast, OLED_CONTRAST)
+ADD_SCENE(settings, storage, STORAGE)
+ADD_SCENE(settings, about, ABOUT)
+ADD_SCENE(settings, app_management, APP_MANAGEMENT)

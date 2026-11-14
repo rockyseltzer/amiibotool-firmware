@@ -1,0 +1,22 @@
+fw/.settings
+fw/_build
+fw/.idea
+
+fw/application/.idea
+fw/bootloader/.idea
+
+fw/src/version.inc.h
+fw/src/version.json
+
+fw/application/log.log
+fw/bootloader/log.log
+
+fw/log.log
+
+# venv stuff
+.venv
+
+fw/scripts/.venv
+
+fw/tempoutput.txt
+fw/_build/
